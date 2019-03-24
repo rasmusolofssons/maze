@@ -18,6 +18,7 @@ namespace MazeGeneratorAndSolver
 
         #region Breadth-First Search
         //TODO: Do not go through walls
+        //TODO: Fix previous cell
         public bool BreathFirstSearch()
         {
             var que = new Queue<Cell>();
