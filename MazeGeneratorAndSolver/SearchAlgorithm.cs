@@ -17,9 +17,66 @@ namespace MazeGeneratorAndSolver
         }
 
         #region Breadth-First Search
+        //TODO: Do not go through walls
         public bool BreathFirstSearch()
         {
+            var que = new Queue<Cell>();
+            que.Enqueue(_maze.Begin);
+            _maze.Begin.IsVisited = true;
+            Cell previousCell = null;
+            Cell currentCell = null;
+            while (que.Count > 0)
+            {
+                //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
+                //Hur hitta grancellen nedanför?
+                if(currentCell != null)
+                {
+                    previousCell = currentCell;
+                }
+                currentCell = que.Dequeue();
+                currentCell.PreviousCell = previousCell;
+                //currentCell.PreviousCell = previousCell;
+                if (currentCell.Position == _maze.End.Position)
+                {
+                    while(currentCell.Position != _maze.Begin.Position)
+                    {
+                        _maze.FoundPath.Add(currentCell);
+                        currentCell = currentCell.PreviousCell;
+                        Thread.Sleep(50);
+                    }
+                 
+                    continue;
+
+                }
+
+                //_maze.CurrentSolvePosition = currentCell.Position;
+                System.Threading.Thread.Sleep(2);
+                var neighbours = GetCurrentCellNeighbours2(currentCell);
+                var cellNeighbours = new List<Cell>();
+                foreach (var neighbour in neighbours)
+                {
+                   // var cell = new Cell(neighbour, neighbour);
+                    var cell = _maze.MazeArray[neighbour.X, neighbour.Y];
+
+                    cellNeighbours.Add(cell);
+                }
+
+                foreach (var cellNeighbour in cellNeighbours)
+                {
+                    if (!cellNeighbour.IsVisited /*&& currentCell.CellWalls[3] == false && cellNeighbour.CellWalls[1] == false*/)
+                    {
+
+                        //cellNeighbour.PreviousCell = currentCell;
+                        
+                        que.Enqueue(cellNeighbour);
+                        cellNeighbour.IsVisited = true;
+                    }
+                }
+                
+
+            }
             // implement Breadth-First search here
+            
             return false;
         }
 
@@ -53,6 +110,7 @@ namespace MazeGeneratorAndSolver
                     var randomNumber = random.Next(0, cellNeighbours.Count);
                     RemoveWall(cell, cellNeighbours[randomNumber]);
                     RemoveWall(cell, cell.PreviousCell);
+                    
 
                 }
 
@@ -153,6 +211,46 @@ namespace MazeGeneratorAndSolver
             // Check Lower neigbour cell 
             tempPos.Y = current.Position.Y + 1;
             if (tempPos.Y < _maze.Height && AllWallsIntact(_maze.MazeArray[tempPos.X, tempPos.Y]))
+            {
+                neighbours.Add(tempPos);
+            }
+
+            return neighbours;
+        }
+
+        private List<Point> GetCurrentCellNeighbours2(Cell current)
+        {
+
+            //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
+            //Hur hitta grancellen nedanför?
+            List<Point> neighbours = new List<Point>();
+
+            Point tempPos = current.Position;
+            // Check right neigbour cell 
+            tempPos.X = current.Position.X - 1;
+            if (tempPos.X >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[0] == false)
+            {
+                neighbours.Add(tempPos);
+            }
+
+            // Check left neigbour cell 
+            tempPos.X = current.Position.X + 1;
+            if (tempPos.X < _maze.Width && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[2] == false)
+            {
+                neighbours.Add(tempPos);
+            }
+
+            // Check Upper neigbour cell 
+            tempPos.X = current.Position.X;
+            tempPos.Y = current.Position.Y - 1;
+            if (tempPos.Y >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[3] == false)
+            {
+                neighbours.Add(tempPos);
+            }
+
+            // Check Lower neigbour cell 
+            tempPos.Y = current.Position.Y + 1;
+            if (tempPos.Y < _maze.Height && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[1] == false)
             {
                 neighbours.Add(tempPos);
             }

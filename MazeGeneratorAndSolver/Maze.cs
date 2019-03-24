@@ -89,6 +89,13 @@ namespace MazeGeneratorAndSolver
                     {
                         g.FillRectangle(Brushes.Green, new Rectangle(this.MazeArray[i, j].Location, new Size(this.X, this.Y)));
                     }
+                    FontFamily fontFamily = new FontFamily("Arial");
+                    Font font = new Font(
+                       fontFamily,
+                       20,
+                       FontStyle.Regular,
+                       GraphicsUnit.Pixel);
+                    //g.DrawString(i.ToString() + j.ToString(), font, Brushes.Red, this.MazeArray[i, j].Location.X, this.MazeArray[i, j].Location.Y);
 
                     // draws a red line indicates the current generation location
                     if (this.Working && this.CurrentGenerateCell.X == j && this.CurrentGenerateCell.Y == i)
