@@ -28,8 +28,54 @@ namespace MazeGeneratorAndSolver
         #region Depth-First Search
         public void DepthFirstSearch()
         {
+            _maze.End.Position = new Point(_maze.Width - 1, _maze.Height - 1);
 
-            // implement Depth-First search here
+            var stack = new Stack<Cell>();
+            stack.Push(_maze.Begin);
+            _maze.Begin.IsVisited = true;
+
+            while (stack.Count > 0)
+            {
+                var cell = stack.Pop();
+
+                _maze.CurrentGenerateCell = cell.Position;
+                var neighbours = GetCurrentCellNeighbours(cell);
+                var cellNeighbours = new List<Cell>();
+                foreach (var neighbour in neighbours)
+                {
+                    var neighbourCell = new Cell(neighbour, neighbour);
+                    cellNeighbours.Add(neighbourCell);
+                }
+
+                if (cell != null && cell.PreviousCell != null && cellNeighbours.Count > 0)
+                {
+                    Random random = new Random();
+                    var randomNumber = random.Next(0, cellNeighbours.Count);
+                    RemoveWall(cell, cellNeighbours[randomNumber]);
+                    RemoveWall(cell, cell.PreviousCell);
+
+                }
+
+                foreach (var neighbourCell in cellNeighbours)
+                {
+                    if (!neighbourCell.IsVisited)
+                    {
+
+                        stack.Push(neighbourCell);
+
+                        if (stack.Count > 1)
+                        {
+                            var nextCell = stack.Peek();
+
+                            nextCell.PreviousCell = cell;
+
+                        }
+                        neighbourCell.IsVisited = true;
+                        System.Threading.Thread.Sleep(2);
+                    }
+                }
+            }
+            _maze.End.CellWalls[2] = false;
         }
 
 
