@@ -204,9 +204,6 @@ namespace MazeGeneratorAndSolver
 
         private List<Cell> GetCurrentCanVisitCellNeighbours(Cell current)
         {
-
-            //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
-            //Hur hitta grancellen nedanför?
             List<Cell> neighbours = new List<Cell>();
 
             Point tempPos = current.Position;
