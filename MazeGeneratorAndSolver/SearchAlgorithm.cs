@@ -22,7 +22,7 @@ namespace MazeGeneratorAndSolver
             List<Cell> path = new List<Cell>();
             while (que.Count > 0)
             {
-                var currentCell = que.Dequeue();
+             var currentCell = que.Dequeue();
                 if (currentCell.Position == _maze.End.Position)
                 {
                     while (currentCell.Position != _maze.Begin.Position)
@@ -43,7 +43,7 @@ namespace MazeGeneratorAndSolver
                 }
 
                 Thread.Sleep(2);
-                var cellNeighbours = GetCurrentCellNeighbours2(currentCell);
+                var cellNeighbours = GetCurrentCanVisitCellNeighbours(currentCell);
 
                 foreach (var cellNeighbour in cellNeighbours)
                 {
@@ -202,7 +202,7 @@ namespace MazeGeneratorAndSolver
             return neighbours;
         }
 
-        private List<Cell> GetCurrentCellNeighbours2(Cell current)
+        private List<Cell> GetCurrentCanVisitCellNeighbours(Cell current)
         {
 
             //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
