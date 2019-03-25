@@ -19,65 +19,86 @@ namespace MazeGeneratorAndSolver
         #region Breadth-First Search
         //TODO: Do not go through walls
         //TODO: Fix previous cell
+        //public bool BreadthFirstSearch()
+        //{
+        //    var queue = new Queue<Cell>();
+        //    queue.Enqueue(_maze.Begin);
+
+        //    while (queue.Count > 0)
+        //    {
+
+        //    }
+        //    return false;
+        //}
         public bool BreathFirstSearch()
         {
             var que = new Queue<Cell>();
             que.Enqueue(_maze.Begin);
             _maze.Begin.IsVisited = true;
+            _maze.CurrentSolvePosition = _maze.End.Position;
+            List<Cell> path = new List<Cell>();
             Cell previousCell = null;
             Cell currentCell = null;
             while (que.Count > 0)
             {
                 //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
                 //Hur hitta grancellen nedanför?
-                if(currentCell != null)
+                if (currentCell != null)
                 {
                     previousCell = currentCell;
                 }
+
+
                 currentCell = que.Dequeue();
-                currentCell.PreviousCell = previousCell;
                 //currentCell.PreviousCell = previousCell;
                 if (currentCell.Position == _maze.End.Position)
                 {
-                    while(currentCell.Position != _maze.Begin.Position)
+                    while (currentCell.Position != _maze.Begin.Position)
                     {
-                        _maze.FoundPath.Add(currentCell);
+                        path.Add(currentCell);
                         currentCell = currentCell.PreviousCell;
+                    }
+
+                    path.Reverse();
+                    foreach (var cell in path)
+                    {
+                        _maze.FoundPath.Add(cell);
                         Thread.Sleep(50);
                     }
-                 
+
                     continue;
 
                 }
 
+
+
                 //_maze.CurrentSolvePosition = currentCell.Position;
                 System.Threading.Thread.Sleep(2);
-                var neighbours = GetCurrentCellNeighbours2(currentCell);
-                var cellNeighbours = new List<Cell>();
-                foreach (var neighbour in neighbours)
-                {
-                   // var cell = new Cell(neighbour, neighbour);
-                    var cell = _maze.MazeArray[neighbour.X, neighbour.Y];
+                var cellNeighbours = GetCurrentCellNeighbours2(currentCell);
+                //foreach (var neighbour in neighbours)
+                //{
+                //   // var cell = new Cell(neighbour, neighbour);
+                //    var cell = _maze.MazeArray[neighbour.X, neighbour.Y];
 
-                    cellNeighbours.Add(cell);
-                }
+                //    cellNeighbours.Add(cell);
+                //}
 
                 foreach (var cellNeighbour in cellNeighbours)
                 {
                     if (!cellNeighbour.IsVisited /*&& currentCell.CellWalls[3] == false && cellNeighbour.CellWalls[1] == false*/)
                     {
 
-                        //cellNeighbour.PreviousCell = currentCell;
-                        
+                        cellNeighbour.PreviousCell = currentCell;
+
                         que.Enqueue(cellNeighbour);
                         cellNeighbour.IsVisited = true;
                     }
                 }
-                
+
 
             }
             // implement Breadth-First search here
-            
+
             return false;
         }
 
@@ -219,26 +240,26 @@ namespace MazeGeneratorAndSolver
             return neighbours;
         }
 
-        private List<Point> GetCurrentCellNeighbours2(Cell current)
+        private List<Cell> GetCurrentCellNeighbours2(Cell current)
         {
 
             //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
             //Hur hitta grancellen nedanför?
-            List<Point> neighbours = new List<Point>();
+            List<Cell> neighbours = new List<Cell>();
 
             Point tempPos = current.Position;
-            // Check right neigbour cell 
+            // Check left neigbour cell 
             tempPos.X = current.Position.X - 1;
-            if (tempPos.X >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[0] == false)
+            if (tempPos.X >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[2] == false)
             {
-                neighbours.Add(tempPos);
+                neighbours.Add(_maze.MazeArray[tempPos.X, tempPos.Y]);
             }
 
-            // Check left neigbour cell 
+            // Check right neigbour cell 
             tempPos.X = current.Position.X + 1;
-            if (tempPos.X < _maze.Width && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[2] == false)
+            if (tempPos.X < _maze.Width && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[0] == false)
             {
-                neighbours.Add(tempPos);
+                neighbours.Add(_maze.MazeArray[tempPos.X, tempPos.Y]);
             }
 
             // Check Upper neigbour cell 
@@ -246,14 +267,14 @@ namespace MazeGeneratorAndSolver
             tempPos.Y = current.Position.Y - 1;
             if (tempPos.Y >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[3] == false)
             {
-                neighbours.Add(tempPos);
+                neighbours.Add(_maze.MazeArray[tempPos.X, tempPos.Y]);
             }
 
             // Check Lower neigbour cell 
             tempPos.Y = current.Position.Y + 1;
             if (tempPos.Y < _maze.Height && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[1] == false)
             {
-                neighbours.Add(tempPos);
+                neighbours.Add(_maze.MazeArray[tempPos.X, tempPos.Y]);
             }
 
             return neighbours;
