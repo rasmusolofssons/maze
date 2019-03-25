@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MazeGeneratorAndSolver
 {
@@ -17,40 +14,15 @@ namespace MazeGeneratorAndSolver
         }
 
         #region Breadth-First Search
-        //TODO: Do not go through walls
-        //TODO: Fix previous cell
-        //public bool BreadthFirstSearch()
-        //{
-        //    var queue = new Queue<Cell>();
-        //    queue.Enqueue(_maze.Begin);
-
-        //    while (queue.Count > 0)
-        //    {
-
-        //    }
-        //    return false;
-        //}
         public bool BreathFirstSearch()
         {
             var que = new Queue<Cell>();
             que.Enqueue(_maze.Begin);
             _maze.Begin.IsVisited = true;
-            _maze.CurrentSolvePosition = _maze.End.Position;
             List<Cell> path = new List<Cell>();
-            Cell previousCell = null;
-            Cell currentCell = null;
             while (que.Count > 0)
             {
-                //cellwalls[3] är ner för currentCell. Om väggen ner är öppen från nuvarande cell, lägg till grann-cellen nedanför.
-                //Hur hitta grancellen nedanför?
-                if (currentCell != null)
-                {
-                    previousCell = currentCell;
-                }
-
-
-                currentCell = que.Dequeue();
-                //currentCell.PreviousCell = previousCell;
+                var currentCell = que.Dequeue();
                 if (currentCell.Position == _maze.End.Position)
                 {
                     while (currentCell.Position != _maze.Begin.Position)
@@ -63,29 +35,19 @@ namespace MazeGeneratorAndSolver
                     foreach (var cell in path)
                     {
                         _maze.FoundPath.Add(cell);
-                        Thread.Sleep(50);
+                        Thread.Sleep(20);
                     }
 
-                    continue;
+                    break;
 
                 }
 
-
-
-                //_maze.CurrentSolvePosition = currentCell.Position;
-                System.Threading.Thread.Sleep(2);
+                Thread.Sleep(2);
                 var cellNeighbours = GetCurrentCellNeighbours2(currentCell);
-                //foreach (var neighbour in neighbours)
-                //{
-                //   // var cell = new Cell(neighbour, neighbour);
-                //    var cell = _maze.MazeArray[neighbour.X, neighbour.Y];
-
-                //    cellNeighbours.Add(cell);
-                //}
 
                 foreach (var cellNeighbour in cellNeighbours)
                 {
-                    if (!cellNeighbour.IsVisited /*&& currentCell.CellWalls[3] == false && cellNeighbour.CellWalls[1] == false*/)
+                    if (!cellNeighbour.IsVisited)
                     {
 
                         cellNeighbour.PreviousCell = currentCell;
