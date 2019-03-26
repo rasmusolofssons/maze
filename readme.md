@@ -18,6 +18,7 @@ Set the project MazeGeneration as the startup project.
 
 - [x] Generate maze more randomly, not up and down paths.
 - [ ] Code cleanup.
+- [ ] Randomize start and end position for the maze.
 - [ ] Find better solution to creating a new list and reversing with the solution path.
 - [ ] Recursive solutions.
 - [ ] A* algorithm to find optimal path?
