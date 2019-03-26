@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MazeGeneratorAndSolver
 {
@@ -72,54 +70,58 @@ namespace MazeGeneratorAndSolver
         #region Depth-First Search
         public void DepthFirstSearch()
         {
-            _maze.End.Position = new Point(_maze.Width - 1, _maze.Height - 1);
-
-            var stack = new Stack<Cell>();
-            stack.Push(_maze.Begin);
-            _maze.Begin.IsVisited = true;
-
-            while (stack.Count > 0)
+            int end = 19;
+            _maze.End = new Cell(new Point(end, end), new Point(end, end));
+            _maze.End.CellWalls[2] = false;
+            var cellStack = new Stack<Cell>();
+            Cell currentCell = _maze.Begin;
+            Cell neighbourCell = null;
+            cellStack.Push(currentCell);
+            while (cellStack.Count > 0)
             {
-                var cell = stack.Pop();
-
-                _maze.CurrentGenerateCell = cell.Position;
-                var neighbours = GetCurrentCellNeighbours(cell);
-                var cellNeighbours = new List<Cell>();
-                foreach (var neighbour in neighbours)
+                _maze.CurrentGenerateCell = currentCell.Position;
+                Thread.Sleep(3);
+                currentCell.IsVisited = true;
+                //cellStack.Push(currentCell);
+                var currentCellPointNeighbours = GetCurrentCellNeighbours(currentCell);
+                var currentCellNeighbours = new List<Cell>();
+                foreach (var currentCellPointNeighbour in currentCellPointNeighbours)
                 {
-                    var neighbourCell = new Cell(neighbour, neighbour);
-                    cellNeighbours.Add(neighbourCell);
+                    currentCellNeighbours.Add(new Cell(new Point(currentCellPointNeighbour.X, currentCellPointNeighbour.Y), new Point(currentCellPointNeighbour.X, currentCellPointNeighbour.Y)));
+                }
+                var currentUnvisitedCellNeighbours = currentCellNeighbours.Where(n => n.IsVisited == false).ToList();
+                if (currentUnvisitedCellNeighbours.Count <= 0)
+                {
+                    var previousCell = currentCell;
+                    currentCell = cellStack.Pop();
+                   // currentCell.PreviousCell = previousCell;
+                    continue;
                 }
 
-                if (cell != null && cell.PreviousCell != null && cellNeighbours.Count > 0)
+                if (currentCell.Position == _maze.End.Position)
                 {
-                    Random random = new Random();
-                    var randomNumber = random.Next(0, cellNeighbours.Count);
-                    RemoveWall(cell, cellNeighbours[randomNumber]);
-                    RemoveWall(cell, cell.PreviousCell);
-
-                }
-
-                foreach (var neighbourCell in cellNeighbours)
-                {
-                    if (!neighbourCell.IsVisited)
+                    Cell currCell = currentCell;
+                    while (currCell.Position != _maze.Begin.Position)
                     {
-
-                        stack.Push(neighbourCell);
-
-                        if (stack.Count > 1)
-                        {
-                            var nextCell = stack.Peek();
-
-                            nextCell.PreviousCell = cell;
-
-                        }
-                        neighbourCell.IsVisited = true;
-                        System.Threading.Thread.Sleep(2);
+                        RemoveWall(currCell, currCell.PreviousCell);
+                        currCell = currCell.PreviousCell;
                     }
                 }
+                Random random = new Random();
+                var randomNumber = random.Next(0, currentUnvisitedCellNeighbours.Count);
+                neighbourCell = currentUnvisitedCellNeighbours[randomNumber];
+                RemoveWall(currentCell, neighbourCell);
+                neighbourCell.PreviousCell = currentCell;
+                currentUnvisitedCellNeighbours.RemoveAt(randomNumber);
+                foreach (var unvisited in currentUnvisitedCellNeighbours)
+                {
+                    cellStack.Push(unvisited);
+                }
+                cellStack.Push(neighbourCell);
+                //cellStack.Push(currentUnvisitedCellNeighbours.FirstOrDefault());
+                //currentCell = neighbourCell;
+                
             }
-            _maze.End.CellWalls[2] = false;
         }
 
 
@@ -141,25 +143,25 @@ namespace MazeGeneratorAndSolver
 
         private void RemoveWall(Cell current, Cell next)
         {
-            // Next is down 
+            // Next is up 
             if (current.Position.X == next.Position.X && current.Position.Y > next.Position.Y)
             {
                 _maze.MazeArray[current.Position.X, current.Position.Y].CellWalls[1] = false;
                 _maze.MazeArray[next.Position.X, next.Position.Y].CellWalls[3] = false;
             }
-            // the next is up
+            // the next is down
             else if (current.Position.X == next.Position.X)
             {
                 _maze.MazeArray[current.Position.X, current.Position.Y].CellWalls[3] = false;
                 _maze.MazeArray[next.Position.X, next.Position.Y].CellWalls[1] = false;
             }
-            // the next is right
+            // the next is left
             else if (current.Position.X > next.Position.X)
             {
                 _maze.MazeArray[current.Position.X, current.Position.Y].CellWalls[0] = false;
                 _maze.MazeArray[next.Position.X, next.Position.Y].CellWalls[2] = false;
             }
-            // the next is left
+            // the next is right
             else
             {
                 _maze.MazeArray[current.Position.X, current.Position.Y].CellWalls[2] = false;
