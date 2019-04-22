@@ -4,17 +4,31 @@ A maze/labyrinth generator made in Windows Forms. Project made by unknown progra
 
 ![Image of the maze](icons/mazegenerator-1.1.PNG?raw=true"Title")
 
+
+
+
+
 ## Requirements ##
+
+Windows.
 
 .NET Framework 4.5+.
 
-Visual studio.
+Visual Studio 2012 +
+
+___
 
 ### Installation ###
 
 Clone project.
 
-Set the project MazeGeneration as the startup project.
+Open .sln in Visual Studio.
+
+Set the project MazeGenerator.Forms as the startup project.
+
+F5 or CTRL + F5
+
+___
 
 ### TODO:
 
