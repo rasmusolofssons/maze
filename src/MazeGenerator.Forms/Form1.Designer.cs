@@ -1,4 +1,4 @@
-﻿namespace MazeGeneration
+﻿namespace MazeGenerator.Forms
 {
     partial class Form1
     {

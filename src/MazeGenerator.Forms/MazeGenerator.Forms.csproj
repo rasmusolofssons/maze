@@ -78,9 +78,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MazeGeneratorAndSolver\MazeGeneratorAndSolver.csproj">
+    <ProjectReference Include="..\MazeGenerator.Core\MazeGenerator.Core.csproj">
       <Project>{248b37d0-94be-49b8-99e2-fa3eed0ae163}</Project>
-      <Name>MazeGeneratorAndSolver</Name>
+      <Name>MazeGenerator.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

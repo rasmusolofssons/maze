@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MazeGeneratorAndSolver
+﻿namespace MazeGenerator.Core
 {
     // this class will be used to solve Maze 
     public class MazeSolver

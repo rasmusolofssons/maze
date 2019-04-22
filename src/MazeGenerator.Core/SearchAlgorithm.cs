@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 
-namespace MazeGeneratorAndSolver
+namespace MazeGenerator.Core
 {
     public class SearchAlgorithm
     {
