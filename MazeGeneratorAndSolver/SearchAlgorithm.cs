@@ -38,7 +38,6 @@ namespace MazeGeneratorAndSolver
                         _maze.FoundPath.Add(cell);
                         Thread.Sleep(20);
                     }
-
                     break;
 
                 }
@@ -70,9 +69,7 @@ namespace MazeGeneratorAndSolver
         #region Depth-First Search
         public void DepthFirstSearch()
         {
-            int end = 19;
-            _maze.End = new Cell(new Point(end, end), new Point(end, end));
-            _maze.End.CellWalls[2] = false;
+
             var cellStack = new Stack<Cell>();
             Cell currentCell = _maze.Begin;
             Cell neighbourCell = null;
@@ -82,7 +79,6 @@ namespace MazeGeneratorAndSolver
                 _maze.CurrentGenerateCell = currentCell.Position;
                 Thread.Sleep(3);
                 currentCell.IsVisited = true;
-                //cellStack.Push(currentCell);
                 var currentCellPointNeighbours = GetCurrentCellNeighbours(currentCell);
                 var currentCellNeighbours = new List<Cell>();
                 foreach (var currentCellPointNeighbour in currentCellPointNeighbours)
@@ -94,7 +90,6 @@ namespace MazeGeneratorAndSolver
                 {
                     var previousCell = currentCell;
                     currentCell = cellStack.Pop();
-                   // currentCell.PreviousCell = previousCell;
                     continue;
                 }
 
@@ -118,10 +113,9 @@ namespace MazeGeneratorAndSolver
                     cellStack.Push(unvisited);
                 }
                 cellStack.Push(neighbourCell);
-                //cellStack.Push(currentUnvisitedCellNeighbours.FirstOrDefault());
-                //currentCell = neighbourCell;
-                
+
             }
+            _maze.MazeArray[_maze.Width -1, _maze.Height -1].CellWalls[2] = false;
         }
 
 
