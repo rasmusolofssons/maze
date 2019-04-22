@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneratorAndSolver", "MazeGeneratorAndSolver\MazeGeneratorAndSolver.csproj", "{248B37D0-94BE-49B8-99E2-FA3EED0AE163}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneratorAndSolver", "src\MazeGeneratorAndSolver\MazeGeneratorAndSolver.csproj", "{248B37D0-94BE-49B8-99E2-FA3EED0AE163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneration", "MazeGeneration\MazeGeneration.csproj", "{1CF6FA70-A816-428D-AE89-9BFA70710750}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneration", "src\MazeGeneration\MazeGeneration.csproj", "{1CF6FA70-A816-428D-AE89-9BFA70710750}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
