@@ -2,7 +2,7 @@
 
 A maze/labyrinth generator made in Windows Forms. Project made by unknown programmer; I simply implemented the algorithms to generate and solve the maze.
 
-![Image of the maze](icons/mazegenerator-1.1.PNG?raw=true"Title")
+![Image of the maze](assets/gifs/mazegenerator-1.1.gif?raw=true"Title")
 
 
 
