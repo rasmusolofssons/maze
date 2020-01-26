@@ -14,6 +14,7 @@ namespace MazeGenerator.Core
             _maze = maze;
         }
 
+        //Find Maze exit
         #region Breadth-First Search
         public bool BreathFirstSearch()
         {
@@ -66,10 +67,10 @@ namespace MazeGenerator.Core
 
         #endregion Breadth-First Search
 
+        //Create Maze
         #region Depth-First Search
         public void DepthFirstSearch()
         {
-
             var cellStack = new Stack<Cell>();
             Cell currentCell = _maze.Begin;
             Cell neighbourCell = null;
@@ -115,18 +116,17 @@ namespace MazeGenerator.Core
                 cellStack.Push(neighbourCell);
 
             }
-            _maze.MazeArray[_maze.Width -1, _maze.Height -1].CellWalls[2] = false;
+
+            CreateEndOfMaze();
         }
 
 
-        private void MakeMazeBeginEnd()
+        private void CreateEndOfMaze()
         {
             Point temp = new Point();
             Random random = new Random();
-            temp.Y = random.Next(_maze.Height);
+            temp.Y = 0;
             temp.X = 0;
-            _maze.MazeArray[temp.X, temp.Y].CellWalls[0] = false;
-            _maze.Begin = _maze.MazeArray[temp.X, temp.Y];
 
             temp.Y = random.Next(_maze.Height);
             temp.X = _maze.Width - 1;
