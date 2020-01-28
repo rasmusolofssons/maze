@@ -7,8 +7,8 @@
     <ProjectGuid>{248B37D0-94BE-49B8-99E2-FA3EED0AE163}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazeGeneratorAndSolver</RootNamespace>
-    <AssemblyName>MazeGeneratorAndSolver</AssemblyName>
+    <RootNamespace>MazeGenerator.Core</RootNamespace>
+    <AssemblyName>MazeGenerator.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

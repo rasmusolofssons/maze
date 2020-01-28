@@ -8,20 +8,23 @@ namespace MazeGenerator.Core
 {
     public class SearchAlgorithm
     {
-        private Maze _maze;
+        private readonly Maze _maze;
+
         public SearchAlgorithm(Maze maze)
         {
             _maze = maze;
         }
 
         //Find Maze exit
+
         #region Breadth-First Search
+
         public bool BreathFirstSearch()
         {
             var que = new Queue<Cell>();
             que.Enqueue(_maze.Begin);
             _maze.Begin.IsVisited = true;
-            List<Cell> path = new List<Cell>();
+            var path = new List<Cell>();
             while (que.Count > 0)
             {
                 var currentCell = que.Dequeue();
@@ -39,8 +42,8 @@ namespace MazeGenerator.Core
                         _maze.FoundPath.Add(cell);
                         Thread.Sleep(20);
                     }
-                    break;
 
+                    break;
                 }
 
                 Thread.Sleep(2);
@@ -50,15 +53,12 @@ namespace MazeGenerator.Core
                 {
                     if (!cellNeighbour.IsVisited)
                     {
-
                         cellNeighbour.PreviousCell = currentCell;
 
                         que.Enqueue(cellNeighbour);
                         cellNeighbour.IsVisited = true;
                     }
                 }
-
-
             }
             // implement Breadth-First search here
 
@@ -68,11 +68,13 @@ namespace MazeGenerator.Core
         #endregion Breadth-First Search
 
         //Create Maze
+
         #region Depth-First Search
+
         public void DepthFirstSearch()
         {
             var cellStack = new Stack<Cell>();
-            Cell currentCell = _maze.Begin;
+            var currentCell = _maze.Begin;
             Cell neighbourCell = null;
             cellStack.Push(currentCell);
             while (cellStack.Count > 0)
@@ -86,6 +88,7 @@ namespace MazeGenerator.Core
                 {
                     currentCellNeighbours.Add(new Cell(new Point(currentCellPointNeighbour.X, currentCellPointNeighbour.Y), new Point(currentCellPointNeighbour.X, currentCellPointNeighbour.Y)));
                 }
+
                 var currentUnvisitedCellNeighbours = currentCellNeighbours.Where(n => n.IsVisited == false).ToList();
                 if (currentUnvisitedCellNeighbours.Count <= 0)
                 {
@@ -96,14 +99,15 @@ namespace MazeGenerator.Core
 
                 if (currentCell.Position == _maze.End.Position)
                 {
-                    Cell currCell = currentCell;
+                    var currCell = currentCell;
                     while (currCell.Position != _maze.Begin.Position)
                     {
                         RemoveWall(currCell, currCell.PreviousCell);
                         currCell = currCell.PreviousCell;
                     }
                 }
-                Random random = new Random();
+
+                var random = new Random();
                 var randomNumber = random.Next(0, currentUnvisitedCellNeighbours.Count);
                 neighbourCell = currentUnvisitedCellNeighbours[randomNumber];
                 RemoveWall(currentCell, neighbourCell);
@@ -113,8 +117,8 @@ namespace MazeGenerator.Core
                 {
                     cellStack.Push(unvisited);
                 }
-                cellStack.Push(neighbourCell);
 
+                cellStack.Push(neighbourCell);
             }
 
             CreateEndOfMaze();
@@ -123,8 +127,8 @@ namespace MazeGenerator.Core
 
         private void CreateEndOfMaze()
         {
-            Point temp = new Point();
-            Random random = new Random();
+            var temp = new Point();
+            var random = new Random();
             temp.Y = 0;
             temp.X = 0;
 
@@ -165,9 +169,9 @@ namespace MazeGenerator.Core
 
         private List<Point> GetCurrentCellNeighbours(Cell current)
         {
-            List<Point> neighbours = new List<Point>();
+            var neighbours = new List<Point>();
 
-            Point tempPos = current.Position;
+            var tempPos = current.Position;
             // Check right neigbour cell 
             tempPos.X = current.Position.X - 1;
             if (tempPos.X >= 0 && AllWallsIntact(_maze.MazeArray[tempPos.X, tempPos.Y]))
@@ -202,9 +206,9 @@ namespace MazeGenerator.Core
 
         private List<Cell> GetCurrentCanVisitCellNeighbours(Cell current)
         {
-            List<Cell> neighbours = new List<Cell>();
+            var neighbours = new List<Cell>();
 
-            Point tempPos = current.Position;
+            var tempPos = current.Position;
             // Check left neigbour cell 
             tempPos.X = current.Position.X - 1;
             if (tempPos.X >= 0 && _maze.MazeArray[tempPos.X, tempPos.Y].CellWalls[2] == false)
@@ -239,16 +243,17 @@ namespace MazeGenerator.Core
 
         private bool AllWallsIntact(Cell cell)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 if (!_maze.MazeArray[cell.Position.X, cell.Position.Y].CellWalls[i])
                 {
                     return false;
                 }
             }
+
             return true;
         }
-        #endregion Depth-First Search
 
+        #endregion Depth-First Search
     }
 }

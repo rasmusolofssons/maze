@@ -3,9 +3,10 @@
 namespace MazeGenerator.Core
 {
     // create Maze in this class
-    public class GenerateMaze 
+    public class GenerateMaze
     {
-        private Maze _maze;
+        private readonly Maze _maze;
+
         public GenerateMaze(Maze maze)
         {
             _maze = maze;
@@ -17,7 +18,7 @@ namespace MazeGenerator.Core
             //Init(value);
             _maze.MazePen.Dispose();
             _maze.MazePen = _maze.X < 5 ? new Pen(Brushes.WhiteSmoke, 1) : new Pen(Brushes.WhiteSmoke, 3);
-            SearchAlgorithm algo = new SearchAlgorithm(_maze);
+            var algo = new SearchAlgorithm(_maze);
             algo.DepthFirstSearch();
         }
     }
