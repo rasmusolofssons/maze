@@ -15,13 +15,13 @@
             _maze.Solving = true;
             // use this method to solve Maze
             _maze.FoundPath.Clear();
-            unvisitAll();
+            UnVisitAll();
             var algo = new SearchAlgorithm(_maze);
             algo.BreathFirstSearch();
             _maze.Solving = false;
         }
 
-        private void unvisitAll()
+        private void UnVisitAll()
         {
             for (var i = 0; i < _maze.MazeArray.GetLength(0); i++)
             for (var j = 0; j < _maze.MazeArray.GetLength(1); j++)
